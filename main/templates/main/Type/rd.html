@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ nav }}
+{% for i in ty %}
+<div>{{i.name}} <a href="../{{i.id}}/d">Del</a> <a href="../{{i.id}}/u">Upd</a></div>
+{% endfor %}
+</body>
+</html>

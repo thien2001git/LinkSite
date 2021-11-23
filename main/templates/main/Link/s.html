@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ nav }}
+<form action="/link/s/" method="post">
+    {% csrf_token %}
+    <input type="text" name="ss">
+    <input type="submit" value="Search">
+</form>
+{% for i in ty %}
+<h2>{{ i.name }}</h2>
+{% for j in li %}
+{% if i == j.idType %}
+{% if j.url == 'zalo://' %}
+<div><img src="http://www.google.com/s2/favicons?domain=https://chat.zalo.me"/> {{j.name}} <a href="{{j.url}}"
+                                                                                              target="_blank">GO</a> <a
+        href="../{{j.id}}/d">Delete</a> <a href="../{{j.id}}/u">Update</a></div>
+{% elif j.url == 'outlook://' %}
+<div><img src="http://www.google.com/s2/favicons?domain=https://outlook.live.com/mail/0/inbox"/> {{j.name}} <a
+        href="{{j.url}}" target="_blank">GO</a> <a href="../{{j.id}}/d">Delete</a> <a href="../{{j.id}}/u">Update</a>
+</div>
+{% else %}
+<div><img src="http://www.google.com/s2/favicons?domain={{j.url}}"/> {{j.name}} <a href="{{j.url}}"
+                                                                                   target="_blank">GO</a> <a
+        href="../{{j.id}}/d">Delete</a> <a href="../{{j.id}}/u">Update</a></div>
+{% endif %}
+
+
+{% endif %}
+{% endfor %}
+{% endfor %}
+</body>
+</html>

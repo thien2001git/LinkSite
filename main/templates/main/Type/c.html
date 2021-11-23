@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ nav }}
+<form action="." method="POST">
+    {% csrf_token %}
+    {% if tt != 0 %}
+        <p>{{ li.name }}</p>
+    {%endif%}
+
+    {{form}}
+
+    <input type="submit" value="OK"/>
+</form>
+
+</body>
+</html>
