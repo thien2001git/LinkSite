@@ -1,3 +1,5 @@
+from django import forms
+from django.forms import ChoiceField
 from django.shortcuts import render
 
 # Create your views here.
@@ -9,13 +11,26 @@ from django.urls import resolve, reverse
 from .models import Type, Links
 from .forms import AddType, AddLink
 from django.http import HttpResponseRedirect
+import requests
+from bs4 import BeautifulSoup
 
 nav = render_to_string('main/layout.html')
 
 
+def img():
+    url = 'http://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=1&mkt=en-US'
+    r = requests.get(url, allow_redirects=False)
+    data = str(r.content[:])
+
+    tree = BeautifulSoup(data)
+    image = tree.findAll("url")
+    stri = "https://www.bing.com/{}".format(str(image[0].get_text()))
+    return stri
+
+
 def tr(request):
     ty = Type.objects.all()
-    return render(request, 'main/Type/rd.html', {'ty': ty, 'nav': nav})
+    return render(request, 'main/Type/rd.html', {'ty': ty, 'nav': nav, "ba": img()})
 
 
 def tu(request, tt):
@@ -32,7 +47,7 @@ def tu(request, tt):
         form.save1(tt, n)
         return HttpResponseRedirect('../../type/r')
 
-    return render(request, 'main/Type/u.html', {'form': form, 'li': t1, 'tt': tt, 'nav': nav})
+    return render(request, 'main/Type/u.html', {'form': form, 'li': t1, 'tt': tt, 'nav': nav, "ba": img()})
 
 
 def tc(request):
@@ -42,7 +57,7 @@ def tc(request):
         if form.is_valid():
             form.save()
         return HttpResponseRedirect('../../type/r')
-    return render(request, 'main/Type/c.html', {'form': form, 'tt': 0, 'nav': nav})
+    return render(request, 'main/Type/c.html', {'form': form, 'tt': 0, 'nav': nav, "ba": img()})
 
 
 def td(request, _id):
@@ -59,7 +74,7 @@ def ls(request):
                                                                                         request.POST['ss']))
         re = RequestContext(request, {'ty': ty, 'li': li, 'nav': nav})
 
-        return render(request, 'main/Link/s.html', {'ty': ty, 'li': li, 'nav': nav})
+        return render(request, 'main/Link/s.html', {'ty': ty, 'li': li, 'nav': nav, 'val': request.POST['ss']})
     else:
         return render(request, 'main/Link/s.html', {'ty': None, 'li': None, 'nav': nav})
 
@@ -87,18 +102,39 @@ def lu(request, tt):
         _url = request.POST['url']
         form.save1(tt, _name, _type, _url)
         return HttpResponseRedirect('../../link/r')
+    t = Links.objects.get(id=tt)
+    return render(request, 'main/Link/u.html',
+                  {'form': form, 'li': t1, 'tt': tt, 't': t.name, 'nav': nav, 't1': t1.name, "t2": t.url, "ba": img()})
 
-    return render(request, 'main/Link/u.html', {'form': form, 'li': t1, 'tt': tt, 'nav': nav})
+
+def ty():
+    li = Type.objects.all()
+    ll = []
+    for i in li:
+        ll.append((i.id, i.name))
+    return ll
+
+
+def lt():
+    li = Type.objects.all()
+    ll = []
+    for i in li:
+        ll.append((i.id, i.name))
+    return ll
 
 
 def lc(request):
     form = AddLink()
+    # ChoiceField.validate(form.type, lt())
+    ba = img()
     if request.method == 'POST':
         form = AddLink(request.POST)
         if form.is_valid():
             form.save()
+
         return HttpResponseRedirect('../../link/r')
-    return render(request, 'main/Link/c.html', {'form': form, 'tt': 0, 'nav': nav})
+    # print(form)
+    return render(request, 'main/Link/c.html', {'form': form, 'tt': 0, 'nav': nav, 'background': ba})
 
 
 def ld(request, _id):

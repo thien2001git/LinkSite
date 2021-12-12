@@ -1,7 +1,55 @@
-<div>
-    <span><a href="/link/r/">Home</a></span>
-    <span><a href="/link/c/">Add link</a></span>
-    <span><a href="/type/r/">Type</a></span>
-    <span><a href="/type/c/">Add type</a></span>
-    <span><a href="/link/s/">Tìm kiếm</a></span>
-</div>
+<!--<div>-->
+<!--    <span><a href="/link/r/">Home</a></span>-->
+<!--    <span><a href="/link/c/">Add link</a></span>-->
+<!--    <span><a href="/type/r/">Type</a></span>-->
+<!--    <span><a href="/type/c/">Add type</a></span>-->
+<!--    <span><a href="/link/s/">Tìm kiếm</a></span>-->
+<!--</div>-->
+
+<style>
+    .navbar
+    {
+        background-color: #24E06C;
+    }
+    .aWhite
+    {
+        color: #fff;
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+
+        <a class="navbar-brand aWhite" href="/link/r/">Link site</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link aWhite" href="/type/r/">Type</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle aWhite" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Add
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/link/c/">Add link</a></li>
+                        <li><a class="dropdown-item" href="/type/c/">Add type</a></li>
+<!--                        <li>-->
+<!--                            <hr class="dropdown-divider">-->
+<!--                        </li>-->
+<!--                        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+                    </ul>
+                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link disabled">Disabled</a>-->
+<!--                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
