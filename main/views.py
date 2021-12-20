@@ -83,7 +83,7 @@ def lr(request):
     ty = Type.objects.all()
     li = Links.objects.all()
     # print("{} {}".format())
-    return render(request, 'main/Link/r.html', {'ty': ty, 'li': li, 'nav': nav})
+    return render(request, 'main/Link/r.html', {'ty': ty, 'li': li, 'nav': nav, 'ba': img()})
 
 
 def lu(request, tt):
