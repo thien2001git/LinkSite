@@ -1,162 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "../layout.html" %}
+{% block tit %}
+<title>Tất cả link</title>
+{% endblock%}
+{% block content %}
+<style>
+    .ba {
+        background-image: url({{ba}});
+        background-size: auto;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <title>Trang chủ</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="icon" href="https://raw.githubusercontent.com/thien2001git/Landing/main/favicon.ico"
-        type="image/x-icon" />
-</head>
+    .centerHeader {
+        text-align: center
+    }
 
-<body class="ba">
-    {{ nav }}
-    <style>
-        .ba{
-            background-image: url({{ba}});
-            background-size: auto;
-        }
-        .centerHeader {
-            text-align: center
-        }
+    .co {
+        /*border: 1px soliFFC915d #;*/
+        border-radius: 8px;
+        margin: 8px 6px 8px;
+        background-color: #fff;
+        padding: 5px;
+    }
 
-        .co {
-            /*border: 1px soliFFC915d #;*/
-            border-radius: 8px;
-            margin: 8px 6px 8px;
-            background-color: #fff;
-            padding: 5px;
-        }
+    .borderHeader {
+        border: 3px solid #1EE378;
+        border-radius: 8px;
+        margin: 6px 8px 8px;
+        background-color: #fff;
+        padding: 5px 5px 5px 20px;
+    }
 
-        .borderHeader {
-            border: 3px solid #1EE378;
-            border-radius: 8px;
-            margin: 6px 8px 8px;
-            background-color: #fff;
-            padding: 5px 5px 5px 20px;
-        }
+    .btn-group {
+        margin: 0px 0px 8px;
+        transform: scale(0.85, 0.85);
+    }
 
-        .btn-group {
-            margin: 0px 0px 8px;
-            transform: scale(0.85, 0.85);
-        }
+    form {
+        margin: 8px 0px 8px;
+    }
 
-        form {
-            margin: 8px 0px 8px;
-        }
+    .row {
+        margin: 6px 0px 8px;
+        background-color: #1EE378;
+        border-radius: 8px;
+    }
+</style>
 
-        .row {
-            margin: 6px 0px 8px;
-            background-color: #1EE378;
-            border-radius: 8px;
-        }
-    </style>
-    <div class="container">
-        <form class="d-flex" action="/link/s/" method="post">
-            {% csrf_token %}
-            <input class="form-control me-2" type="text" name="ss" placeholder="Search">
-            <input class="btn btn-outline-success" type="submit" value="Search">
-        </form>
-        {% for i in ty %}
-        <div class="row">
-            <h2 class="borderHeader" id="tt-{{ i.name }}" name="nc">{{ i.name }}</h2>
-            <div class="row" id="tt1-{{ i.name }}" name="nc1">
-                {% for j in li %}
 
-                {% if i == j.idType %}
+<div class="container">
 
-                {% if j.url == 'zalo://' %}
-                <div class="col-3">
-                    <div class="co">
-                        <div class="centerHeader"><img
-                                src="http://www.google.com/s2/favicons?domain=https://chat.zalo.me" />
-                        </div>
-                        <h5 class="centerHeader">{{j.name}}</h5>
-                        <div class="centerHeader">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-outline-primary" href="{{j.url}}" target="_blank">GO</a>
-                                <a class="btn btn-outline-danger" href="../{{j.id}}/d">Delete</a>
-                                <a class="btn btn-outline-success" href="../{{j.id}}/u">Update</a>
-                            </div>
-                        </div>
+    {% for i in ty %}
+    <div class="row">
+        <h2 class="borderHeader" id="tt-{{ i.name }}" name="nc">{{ i.name }}</h2>
+        <div class="row" id="tt1-{{ i.name }}" name="nc1">
+            {% for j in li %}
+
+            {% if i == j.idType %}
+
+
+
+            <div class="col-3">
+                <div class="co">
+                    <div class="centerHeader"><img alt="" src="http://www.google.com/s2/favicons?domain={{j.url}}" />
                     </div>
-
-
-                </div>
-                {% elif j.url == 'outlook://' %}
-                <div class="col-3">
-
-                    <div class="co">
-                        <div class="centerHeader"><img
-                                src="http://www.google.com/s2/favicons?domain=https://outlook.com" />
-                        </div>
-                        <div class="centerHeader">
-                            <h5 class="centerHeader">{{j.name}}</h5>
-                        </div>
-                        <div class="centerHeader">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-outline-primary" href="{{j.url}}" target="_blank">GO</a>
-                                <a class="btn btn-outline-danger" href="../{{j.id}}/d">Delete</a>
-                                <a class="btn btn-outline-success" href="../{{j.id}}/u">Update</a>
-                            </div>
+                    <h5 class="centerHeader">{{j.name}}</h5>
+                    <div class="centerHeader">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a class="btn btn-outline-primary go" href="{{j.url}}" target="_blank"
+                                data-id="{{j.id}}">GO</a>
+                            <a class="btn btn-outline-danger" href="../{{j.id}}/d">Delete</a>
+                            <a class="btn btn-outline-success" href="../{{j.id}}/u">Update</a>
                         </div>
                     </div>
                 </div>
-                {% else %}
 
-                <div class="col-3">
-                    <div class="co">
-                        <div class="centerHeader"><img src="http://www.google.com/s2/favicons?domain={{j.url}}" /></div>
-                        <h5 class="centerHeader">{{j.name}}</h5>
-                        <div class="centerHeader">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-outline-primary" href="{{j.url}}" target="_blank">GO</a>
-                                <a class="btn btn-outline-danger" href="../{{j.id}}/d">Delete</a>
-                                <a class="btn btn-outline-success" href="../{{j.id}}/u">Update</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                {% endif %}
-
-
-                {% endif %}
-
-                {% endfor %}
             </div>
+            {% endif %}
+
+
+
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
+    {% endfor %}
+</div>
 
-        let nc = document.getElementsByName("nc");
-        let nc1 = document.getElementsByName("nc1");
-        for (let i = 0; i < nc.length; i++) {
-            const e = nc[i];
-            const e1 = nc1[i];
-            e1.style.display = "none";
-            e.addEventListener("click", function () {
-                if (e1.style.display != "none") {
-                    e1.style.display = "none";
-                } else {
-                    e1.style.display = "flex";
-                }
-            });
+
+<script>
+
+    let nc = document.getElementsByName("nc");
+    let nc1 = document.getElementsByName("nc1");
+    for (let i = 0; i < nc.length; i++) {
+        const e = nc[i];
+        const e1 = nc1[i];
+        e1.style.display = "none";
+        e.addEventListener("click", function () {
+            if (e1.style.display != "none") {
+                e1.style.display = "none";
+            } else {
+                e1.style.display = "flex";
+            }
+        });
+    }
+    $(".go").click(
+        function (e) {
+            let id = this.getAttribute("data-id")
+            // console.log(id)
+            $.ajax({
+                url: "/link/"+id+"/dem"
+            })
+
         }
-        // for (let i = 0; i < nc1.length; i++) {
-        //     const e = nc1[i];
-        //     console.log(e.outerHTML);
-        // }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+    )
+    // for (let i = 0; i < nc1.length; i++) {
+    //     const e = nc1[i];
+    //     console.log(e.outerHTML);
+    // }
+</script>
+{% endblock%}

@@ -21,7 +21,7 @@ class AddType(forms.Form):
         li = Type.objects.all()
         t = Type(name=self.cleaned_data['n1'])
         t.save()
-
+    
     def save1(self, _id, _name):
         t = Type.objects.get(id=_id)
         t.name = _name
@@ -49,7 +49,7 @@ class AddLink(forms.Form):
             if i.id == int(self.cleaned_data['type']):
                 _id = i
         # print(self.cleaned_data['type'])
-        t = Links(idType=_id, name=self.cleaned_data['name'], url=self.cleaned_data['url'])
+        t = Links(idType=_id, name=self.cleaned_data['name'], url=self.cleaned_data['url'],dem=0)
         t.save()
 
     def save1(self, _id, _name, _type, _url):

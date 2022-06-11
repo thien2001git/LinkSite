@@ -1,0 +1,42 @@
+{% extends "../layout.html" %}
+{% block tit %}
+<title>Thống kê</title>
+{% endblock%}
+{% block content %}
+
+
+<div class="container-md">
+    <h2>Thống kê</h2>
+
+    <div class="row" id="tt1-{{ i.name }}" name="nc1">
+        {% for j in li %}
+
+
+
+
+
+        <div class="col-3">
+            <div class="co">
+                <div class="centerHeader"><img alt="" src="http://www.google.com/s2/favicons?domain={{j.url}}" />
+                </div>
+                <h5 class="centerHeader">{{j.name}}: {{j.dem}} lần</h5>
+                <div class="centerHeader">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-outline-primary go" href="{{j.url}}" target="_blank" data-id="{{j.id}}">GO</a>
+                        <a class="btn btn-outline-danger" href="../{{j.id}}/d">Delete</a>
+                        <a class="btn btn-outline-success" href="../{{j.id}}/u">Update</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock%}

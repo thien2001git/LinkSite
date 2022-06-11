@@ -1,136 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Tạo link mới</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="icon" href="https://raw.githubusercontent.com/thien2001git/Landing/main/favicon.ico"  type="image/x-icon"/>
-    <style>
-        .ba {
-            background-image: url({{background}});
-            background-size: auto;
-        }
-
-        li {
-            list-style-type: None;
-        }
-
-        .j {
-            width: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .j1 {
-            width: 500px;
-            border: 1px solid rgb(54, 197, 197);
-            padding: 10px;
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .c1 {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .g {
-            margin: 15px 0px 0px;
-            align-self: center;
-        }
-
-        .g2 {
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .form-label {
-            margin: 8px 0px 0px;
-        }
-
-        form {
-            margin: 8px 0px 8px;
-        }
-
-        h3 {
-            text-align: center;
-        }
-
-        .v {
-
-            margin-left: 50px;
-        }
-    </style>
-</head>
-
-<body class="ba">
-    {{ nav }}
-
-    <div class="container">
-
-        <form class="d-flex" action="/link/s/" method="post">
-            {% csrf_token %}
-            <input class="form-control me-2" type="text" name="ss" placeholder="Search">
-            <input class="btn btn-outline-success g2" type="submit" value="Search">
-        </form>
-        <div class="alert alert-light"> <a href="/link/r/">Trang chủ</a> / Tạo link </div>
-        <div class="j">
-
-            <div class="j1">
-                <h3>Add Link</h3>
-                <form action="." method="POST" class="c1">
-
-                    {% csrf_token %}
-                    {{form}}
+{% extends "../layout.html" %}
+{% block tit %}
+<title>Tạo link mới</title>
+{% endblock%}
+{% block content %}
 
 
-                    <input type="submit" value="OK" class="btn btn-outline-success g" />
-
-                </form>
-            </div>
-        </div>
-    </div>
-    <script>
-        let y = document.getElementById('id_type');
-        y.setAttribute('class', 'form-check');
-        y.setAttribute('class', 'form-switch');
-
-        let v = document.getElementById("id_type_0");
-        v.checked = true;
-        let x = document.getElementsByTagName("input");
-
-        for (let i = 0; i < x.length; i++) {
-            const e = x[i];
-
-            if (e.getAttribute('type') == 'radio') {
-                e.setAttribute('class', 'form-check-input');
-                console.log(e.outerHTML);
-
-            }
-            if (e.getAttribute('type') == 'text' || e.getAttribute('type') == 'url') {
-                e.setAttribute('class', 'form-control');
-            }
-        }
-
-        let z = document.getElementsByTagName("label");
-        for (let i = 0; i < z.length; i++) {
-            const e = z[i];
-            e.setAttribute('class', 'form-label');
-
-        }
-
-
-
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+<div class="container-md">
+    <form action="#" method="post">
+        {% csrf_token %}
+        <table class="table">
+            <tr>
+                <th><label for="loai">Nhập loại bạn cần</label></th>
+                <td>
+                    <select name="loai" title="chọn" id="loai">
+                        {% for i in ty %}
+                        <option value="{{i.id}}">{{i.name}}</option>
+                        {% endfor%}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="nm">Tên hiển thị</label></th>
+                <td><input type="text" title="tên" name="nm" id="nm"></td>
+            </tr>
+            <tr>
+                <th><label for="u">Link</label></th>
+                <td><input type="url" title="url" name="u" id="u"></td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Thêm</button>
+                </td>
+                <td>
+                    <button type="reset">Reset</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{% if mess%}
+<script>
+    alert("{{mess}}")
+</script>
+{% endif%}
+{% endblock%}

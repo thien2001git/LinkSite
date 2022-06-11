@@ -13,6 +13,8 @@ urlpatterns = [
     path('link/s/', views.ls),
     path('link/c/', views.lc),
     path('link/<int:tt>/u', views.lu),
+    path('link/<int:id>/dem', views.dem),
     path('link/r/', views.lr),
-    path('link/<int:_id>/d', views.ld)
+    path('link/<int:_id>/d', views.ld),
+    path('tk/', views.tk)
 ]
