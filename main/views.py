@@ -2,7 +2,7 @@ from typing import Dict
 from unicodedata import name
 from django import forms
 from django.forms import ChoiceField
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse
@@ -11,164 +11,98 @@ from django.template.loader import render_to_string
 from django.urls import resolve, reverse
 
 from .models import Type, Links
-from .forms import AddType, AddLink
 from django.http import HttpResponseRedirect
-import requests
-from bs4 import BeautifulSoup
-
-# nav = render_to_string('main/layout.html')
 
 
-def img():
-    # url = 'http://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=1&mkt=en-US'
-    # r = requests.get(url, allow_redirects=False)
-    # data = str(r.content[:])
-
-    # tree = BeautifulSoup(data)
-    # image = tree.findAll("url")
-    # stri = "https://www.bing.com/{}".format(str(image[0].get_text()))
-    return ""
+class some_method:
+    @staticmethod
+    def sort_key(e):
+        return e.name
 
 
-def tr(request):
-    ty = Type.objects.all()
-    return render(request, 'main/Type/rd.html', {'ty': ty,  "ba": img()})
+class to_html:
+    @staticmethod
+    def index(req):
+        ctx = dict()
+        ctx["title"] = "Trang chủ"
+        ctx["type"] = list(Type.objects.all())
+        ctx["link"] = list(Links.objects.all())
+        ctx["link"].sort(key=some_method.sort_key)
+
+        for i in ctx["type"]:
+            i.dem = sum(p.idType.id == i.id for p in ctx["link"])
+            i.save()
 
 
-def tu(request, tt):
-    form = AddType()
-    ty = Type.objects.all()
-    t1 = Type()
-    for i in range(len(ty)):
-        if tt == ty[i].id:
-            t1 = ty[i]
-            break
-    if request.method == 'POST':
-        print(form)
-        n = request.POST['n1']
-        form.save1(tt, n)
-        return HttpResponseRedirect('../../type/r')
+        return render(req, "main/link/index.html", ctx)
 
-    return render(request, 'main/Type/u.html', {'form': form, 'li': t1, 'tt': tt,  "ba": img()})
+    @staticmethod
+    def tk(req):
+        ctx = dict()
+        ctx["title"] = "Trang chủ"
+        ctx["type"] = Type.objects.all()
 
 
-def tc(request):
-    
-    if request.method == 'POST':
-        ty = Type(name=request.POST['n1'], dem=0)
-        ty.save()
-        
-        return HttpResponseRedirect('../../type/r')
-    return render(request, 'main/Type/c.html', { 'tt': 0,  "ba": img()})
+        ctx["link"] = list(Links.objects.all())
+        que = "SELECT * FROM main_links where name like '%{}%' or url like '%{}%'".format(req.POST["tk"], req.POST["tk"])
+        print(que)
+        # ctx["link"].sort(key=some_method.sort_key)
+        # print("SELECT * FROM main_links WHERE {} IN name OR {} IN url".format(req.POST["tk"], req.POST["tk"]))
+        if (req.method == "POST"):
+            ctx["link"] = list(Links.objects.raw(que))
+
+        ctx["link"].sort(key=some_method.sort_key)
+        for i in ctx["type"]:
+            i.dem = sum(p.idType.id == i.id for p in ctx["link"])
+            # i.save()
+
+            # pass
+        return render(req, "main/link/index.html", ctx)
 
 
-def td(request, _id):
-    rm = Type.objects.get(id=_id)
-    rm.delete()
-    return HttpResponseRedirect('../../type/r')
+class xldl:
+    @staticmethod
+    def add_link(req):
+        # print(req)
+        if req.method == "POST":
+            print(req.POST)
+            moi = Links(idType=Type.objects.get(id=req.POST["loai"]),
+                        name=req.POST["name"],
+                        url=req.POST["url"]
+                        )
+            if "id" in req.POST.keys():
+                moi.id = req.POST["id"]
+            moi.save()
+        return redirect('index')
 
-def dem(request, id):
-    l = Links.objects.get(id=id)
-    print(l)
-    l.dem = l.dem+1
-    l.save()
+    @staticmethod
+    def dem(req, id):
+        it = Links.objects.get(id=id)
+        it.dem += 1
+        it.save()
+        print(it)
+        return HttpResponse("ok")
 
-    t = l.idType
-    t.dem = t.dem + 1
-    t.save()
-    return lr(request)
+    @staticmethod
+    def del_link(req, id):
+        it = Links.objects.get(id=id)
+        it.delete()
+        print(it)
+        return redirect('index')
 
-def ls(request):
-    # print(request)
-    if request.method == 'GET':
-        # print(request.GET)
-        ty = Type.objects.all()
-        li = Links.objects.raw(
-            "SELECT * FROM main_links where name like '%{}%' or url like '%{}%'".format(request.GET['ss'],
-                                                                                        request.GET['ss']))
-        # re = RequestContext(request, {'ty': ty, 'li': li})
+    @staticmethod
+    def add_type(req):
+        if req.method == "POST":
+            moi = Type(name=req.POST["name"])
+            if "id" in req.POST.keys():
+                moi.id = req.POST["id"]
+                print(moi.id)
+            moi.save()
+        return redirect('index')
 
-        return render(request, 'main/Link/s.html', {'ty': ty, 'li': li,  'val': request.GET['ss']})
-    else:
-        return render(request, 'main/Link/s.html', {'ty': None, 'li': None})
-
-# lấy tất cả link
-def lr(request):
-    ty = Type.objects.all()
-    li = Links.objects.all()
-    # print("{} {}".format())
-    # if request.method == "POST":
-
-    return render(request, 'main/Link/r.html', {'ty': ty, 'li': li, 'ba': img()})
-
-
-def lu(request, tt):
-    form = AddLink()
-    ty = Type.objects.all()
-    t1 = Type()
-    for i in range(len(ty)):
-        if tt == ty[i].id:
-            t1 = ty[i]
-            break
-    if request.method == 'POST':
-        # print(form)
-        # n = request.POST['n1']
-        _type = request.POST['type']
-        _name = request.POST['name']
-        _url = request.POST['url']
-        form.save1(tt, _name, _type, _url)
-        return HttpResponseRedirect('../../link/r')
-    t = Links.objects.get(id=tt)
-    return render(request, 'main/Link/u.html',
-                  {'type': ty, 'id': tt, 'name': t.name, 'nametype': t1.name, "url": t.url, "ba": img()})
-
-
-def ty():
-    li = Type.objects.all()
-    ll = []
-    for i in li:
-        ll.append((i.id, i.name))
-    return ll
-
-
-def lt():
-    li = Type.objects.all()
-    ll = []
-    for i in li:
-        ll.append((i.id, i.name))
-    return ll
-
-
-def lc(request):
-    # form = AddLink()
-    # ChoiceField.validate(form.type, lt())
-    ty = list(Type.objects.all())
-    cxt = dict()
-    cxt = {'ty': ty, 'tt': 0}
-   
-    ba = img()
-    if request.method == 'POST':
-        # print(request.POST["loai"])
-        if request.POST["nm"] == "" or print(request.POST["u"]) == "":
-            cxt["mess"] = "Lỗi bạn đã đế trống trường tên hoặc url"
-        else:
-            l = Links(idType=Type.objects.filter(id=request.POST["loai"]).first(), name=request.POST["nm"], url=request.POST["u"], dem=0)
-            l.save()
-            cxt['mess'] = "Thành công"
-    return render(request, 'main/Link/c.html', context=cxt)
-
-
-def ld(request, _id):
-    rm = Links.objects.get(id=_id)
-    rm.delete()
-    return HttpResponseRedirect('../../link/r')
-
-def tk(req):
-    ctx = dict()
-    li = list(Links.objects.all())
-
-    li.sort(key= lambda x : x.dem, reverse=True)
-    # print(li)
-    ctx["li"] = li
-
-    return render(req, 'main/ThongKe/tk.html', context=ctx)
+    @staticmethod
+    def del_type(req, id):
+        it = Type.objects.get(id=id)
+        it.delete()
+        print(id)
+        return HttpResponse("ok")

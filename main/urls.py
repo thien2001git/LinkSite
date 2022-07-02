@@ -3,18 +3,13 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path('', views.index),
+    path('', views.to_html.index, name="index"),
+    path('addlink/', views.xldl.add_link, name="addlink"),
+    path('dem/<int:id>', views.xldl.dem, name="dem"),
+    path('del-link/<int:id>', views.xldl.del_link, name="del-link"),
+    path('del-type/<int:id>', views.xldl.del_type, name="del-type"),
+    path('addtype/', views.xldl.add_type, name="add-type"),
+    path('tk/', views.to_html.tk, name="tk"),
 
-    path('type/c/', views.tc),
-    path('type/<int:tt>/u', views.tu),
-    path('type/r/', views.tr),
-    path('type/<int:_id>/d', views.td),
 
-    path('link/s/', views.ls),
-    path('link/c/', views.lc),
-    path('link/<int:tt>/u', views.lu),
-    path('link/<int:id>/dem', views.dem),
-    path('link/r/', views.lr),
-    path('link/<int:_id>/d', views.ld),
-    path('tk/', views.tk)
 ]

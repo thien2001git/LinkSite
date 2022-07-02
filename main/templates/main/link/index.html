@@ -1,0 +1,394 @@
+{% extends "main/layout/layout.html" %}
+{% block title %}
+<title>{{title}}</title>
+<style>
+    .an-chu {
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .lar {
+        width: 500px;
+    }
+
+    /* .nav .ui-selected { background: #F39814; color: white; } */
+</style>
+{% endblock %}
+{% block nd %}
+<div class="container-fluid">
+    <form action="/addlink/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" id="">
+        <div class="modal fade " id="update-link" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog lar">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sửa link</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Loại</label>
+                                    <select name="loai" id="" class="form-control">
+                                        {% for it in type %}
+                                        <option value="{{it.id}}">{{it.name}}</option>
+
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tên</label>
+                                    <input class="form-control" type="text" name="name" id="">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Url</label>
+                                    <input class="form-control" type="url" name="url" id="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="upd">Cập nhật</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form action="/addlink/" method="post">
+        {% csrf_token %}
+        <div class="modal fade " id="add-link" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog lar">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm link mới</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Loại</label>
+                                    <select name="loai" id="" class="form-control">
+                                        {% for it in type %}
+                                        <option value="{{it.id}}">{{it.name}}</option>
+
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tên</label>
+                                    <input class="form-control" type="text" name="name" id="">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Url</label>
+                                    <input class="form-control" type="url" name="url" id="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="upd">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <form action="/addtype/" method="post">
+        {% csrf_token %}
+        <div class="modal fade " id="add-type" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog lar">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm loại mới</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Tên</label>
+                                    <input class="form-control" type="text" name="name" id="">
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="upd">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action="/addtype/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" >
+        <div class="modal fade " id="upd-type" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog lar">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sửa loại</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Tên</label>
+                                    <input class="form-control" type="text" name="name" id="">
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="upd">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column type1" id="slide">
+                    {% for it in type %}
+                    <li class="nav-item">
+                        <div class="nav-link active type" data-id="{{it.id}}" data-name="{{it.name}}">
+                            {{it.name}} ({{it.dem}})
+                        </div>
+
+                    </li>
+
+                    {% endfor %}
+
+
+                </ul>
+
+
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <ul class="nav">
+                <li class="nav-item">
+                    <button class="btn btn-primary" data-target="#add-link" data-toggle="modal">Thêm link</button>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-primary" data-target="#add-type" data-toggle="modal">Thêm loại</button>
+                </li>
+
+            </ul>
+
+
+            <ul id="tieu-de1" class="w-25">
+                <li>
+                    <h2 id="tieu-de" ></h2>
+                    <ul>
+                        <li data-target="#upd-type" data-toggle="modal" onclick="myClick(this)">Sửa</li>
+                        <li onclick="myClick2(this)">Xóa</li>
+                    </ul>
+                </li>
+            </ul>
+
+
+
+
+            {% for it1 in type %}
+            <div class="row link" data-id1="{{it1.id}}">
+                {% for it in link %}
+                {% if it1.id == it.idType.id %}
+                <div class="card col-md-3 text-center ">
+                    <div class="justify-content-center">
+                        <img class="ico" src="" data-u="{{it.url}}" alt="..." width="16" height="16">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title an-chu">{{it.name}}</h5>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="{{it.url}}" type="button" class="btn btn-primary" target="_blank"
+                                data-id="{{it.id}}" onclick="dem(this)">Go</a>
+                            <button type="button" class="btn btn-success" data-target="#update-link" data-toggle="modal"
+                                data-id="{{it.id}}" data-type="{{it.idType.id}}" data-u="{{it.url}}"
+                                data-nm="{{it.name}}" onclick="uclick(this);">Update</button>
+                            <a href="/del-link/{{it.id}}" class="btn btn-danger">Delele</a>
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+
+        </main>
+    </div>
+</div>
+<script>
+    // console.log($(".upd"))
+    function uclick(ele) {
+        console.log("ok")
+        $("select[name=loai]").val($(ele).data("type"))
+        $("input[name=id]").val($(ele).data("id"))
+        $("input[name=name]").val($(ele).data("nm"))
+        $("input[name=url]").val($(ele).data("u"))
+
+    }
+
+    // $(".upd").each((id, ele) => {
+
+    //     ele.addEventListener("click", (ev) => {
+
+
+    //     })
+
+
+    // })
+
+
+
+
+
+
+    $(document).ready((ev) => {
+        let l = $(".link")
+
+        for (let id = 0; id < l.length; id++) {
+            const ele = l[id];
+            // console.log(ele)
+            if (id == 0) {
+                $("div[data-id1=" + ele.dataset.id1 + "]").show()
+            } else {
+                $("div[data-id1=" + ele.dataset.id1 + "]").hide()
+            }
+        }
+
+
+        let l1 = $(".ico")
+        for (let i = 0; i < l1.length; i++) {
+            const e = l1[i];
+            let u = e.dataset.u
+
+            // console.log()
+            if (u.indexOf("/", 8) != -1) {
+                u = u.substring(0, u.indexOf("/", 8))
+            }
+            // console.log(u)
+            e.setAttribute("src", "http://www.google.com/s2/favicons?domain=" + u)
+        }
+
+    })
+
+
+
+    $(".type").each((id, ele) => {
+        if (id == 0) {
+            $(ele).css("background-color", "#F39814")
+            $(ele).css("color", "#fff")
+            $("#tieu-de").empty()
+            $("#tieu-de").html($(ele).data("name"))
+            $("#tieu-de").data("id", $(ele).data("id"))
+            $("#tieu-de").data("name", $(ele).data("name"))
+        }
+
+
+        ele.addEventListener("click", (ev) => {
+            $(".link").hide()
+            // console.log(ele.dataset.id)
+            $("div[data-id1=" + ele.dataset.id + "]").show()
+
+            $(".type").css("color", "#212529")
+            $(".type").css("background-color", "#fff")
+
+
+            $(ele).css("background-color", "#F39814")
+            $(ele).css("color", "#fff")
+
+            $("#tieu-de").empty()
+            $("#tieu-de").html($(ele).data("name"))
+            $("#tieu-de").data("id", $(ele).data("id"))
+            $("#tieu-de").data("name", $(ele).data("name"))
+
+
+
+        })
+    })
+
+    function dem(e) {
+        $.post("/dem/" + $(e).data("id"), { csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val() }, (data, tt, xhr) => {
+            console.log(data)
+            console.log(tt)
+            // console.log(xhr)
+            if(data=="ok"){
+                location.reload()
+            }
+        })
+    }
+
+    $(".link").sortable({
+        revert: true
+    });
+    $(".type1").sortable({
+        revert: true
+    });
+    // $(".nav").selectable();
+
+    $("#tieu-de1").menu();
+
+    function myClick(ele) {
+        console.log("ok")
+        $("input[name=name]").val($("#tieu-de").data("name"))
+        $("input[name=id]").val($("#tieu-de").data("id"))
+        console.log($("input[name=id]").val())
+    }
+
+    function myClick2(e) {
+        $.post("/del-type/" + $("#tieu-de").data("id"), { csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val() }, (data, tt, xhr) => {
+            console.log(data)
+            console.log(tt)
+            // console.log(xhr)
+            if(data=="ok"){
+                location.reload()
+            }
+        })
+    }
+
+</script>
+{% endblock %}
